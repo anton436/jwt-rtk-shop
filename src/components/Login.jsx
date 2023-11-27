@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Container, FormControl } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { Form, useNavigate } from 'react-router-dom';
-import { login, register } from '../store/actions/authActions';
+import { login } from '../store/actions/authActions';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -20,7 +20,7 @@ const Login = () => {
         password,
       };
 
-      dispatch(login(newUser));
+      dispatch(login(newUser)).then(() => navigate('/'));
     }
   };
 

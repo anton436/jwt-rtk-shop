@@ -21,3 +21,40 @@ export const login = createAsyncThunk('auth/login', async (userData) => {
     throw error;
   }
 });
+
+export const logout = () => {
+  localStorage.removeItem('tokens');
+  localStorage.removeItem('email');
+};
+
+export const checkAuth = createAsyncThunk('auth/checkAuth', async () => {
+  try {
+    const tokens = JSON.parse(localStorage.getItem('tokens'));
+
+    const Authorization = `Bearer ${tokens.access}`;
+
+    const config = {
+      headers: {
+        Authorization,
+      },
+    };
+
+    const result = await axios.post(
+      `${API}/account/token/refresh/`,
+      {
+        refresh: tokens.refresh,
+      },
+      config
+    );
+
+    localStorage.setItem(
+      'tokens',
+      JSON.stringify({
+        access: result.data.access,
+        refresh: tokens.refresh,
+      })
+    );
+  } catch (error) {
+    logout();
+  }
+});
