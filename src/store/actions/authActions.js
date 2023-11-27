@@ -9,3 +9,15 @@ export const register = createAsyncThunk('auth/register', async (newUser) => {
     throw error;
   }
 });
+
+export const login = createAsyncThunk('auth/login', async (userData) => {
+  try {
+    const result = await axios.post(`${API}/account/login/`, userData);
+    localStorage.setItem('tokens', JSON.stringify(result.data));
+    localStorage.setItem('email', userData.email);
+
+    return userData.email;
+  } catch (error) {
+    throw error;
+  }
+});
