@@ -40,3 +40,28 @@ export const createProduct = createAsyncThunk(
     }
   }
 );
+
+export const deleteProduct = createAsyncThunk(
+  'products/deleteProduct',
+  async (id, thunkAPI) => {
+    try {
+      await axios.delete(`${API}/products/${id}/`, getConfig());
+      thunkAPI.dispatch(getProducts());
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
+export const getOneProduct = createAsyncThunk(
+  'products/getOneProduct',
+  async (id) => {
+    try {
+      const result = await axios.get(`${API}/products/${id}/`, getConfig());
+
+      return result.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);

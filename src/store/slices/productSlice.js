@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getCategories, getProducts } from '../actions/productActions';
+import {
+  getCategories,
+  getOneProduct,
+  getProducts,
+} from '../actions/productActions';
 
 const initialState = {
   loading: false,
@@ -36,6 +40,17 @@ export const productSlice = createSlice({
       state.categories = action.payload;
     },
     [getCategories.rejected]: (state) => {
+      state.loading = false;
+    },
+
+    [getOneProduct.pending]: (state) => {
+      state.loading = true;
+    },
+    [getOneProduct.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.oneProduct = action.payload;
+    },
+    [getOneProduct.rejected]: (state) => {
       state.loading = false;
     },
   },
