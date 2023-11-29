@@ -65,3 +65,18 @@ export const getOneProduct = createAsyncThunk(
     }
   }
 );
+
+export const updateProduct = createAsyncThunk(
+  'products/updateProduct',
+  async (editedProduct) => {
+    try {
+      await axios.patch(
+        `${API}/products/${editedProduct.get('id')}/`,
+        editedProduct,
+        getConfig()
+      );
+    } catch (error) {
+      throw error;
+    }
+  }
+);

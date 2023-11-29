@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Spinner } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { getProducts } from '../store/actions/productActions';
@@ -7,7 +7,7 @@ import Pagination from './Pagination';
 import ProductCard from './ProductCard';
 
 const ProductList = () => {
-  const { productList } = useSelector((state) => state.product);
+  const { productList, loading } = useSelector((state) => state.product);
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -17,9 +17,11 @@ const ProductList = () => {
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-      {productList.map((item) => (
-        <ProductCard item={item} key={item.id} />
-      ))}
+      {loading ? (
+        <Spinner animation="border" variant="dark" />
+      ) : (
+        productList.map((item) => <ProductCard item={item} key={item.id} />)
+      )}
       <Container>
         <Pagination />
       </Container>

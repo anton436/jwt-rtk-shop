@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Container, FormControl, FormSelect } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   createProduct,
   getCategories,
   getOneProduct,
+  updateProduct,
 } from '../store/actions/productActions';
 
 const EditProduct = () => {
@@ -34,6 +35,7 @@ const EditProduct = () => {
       setCategory(oneProduct.category.id);
     }
   }, [oneProduct]);
+  const navigate = useNavigate();
 
   const handleCreate = () => {
     let newProduct = new FormData();
@@ -44,8 +46,9 @@ const EditProduct = () => {
     if (image) {
       newProduct.append('image', image);
     }
+    newProduct.append('id', id);
 
-    dispatch(createProduct(newProduct));
+    dispatch(updateProduct(newProduct)).then(() => navigate('/products'));
   };
 
   return (
